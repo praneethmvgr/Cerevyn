@@ -60,6 +60,15 @@ python manage.py runserver
 5. Open your browser and go to:
 http://127.0.0.1:8000/
 
+
+## 🎨 UI Wireframes
+
+View the wireframes here:  
+[Figma Wireframe](https://www.figma.com/design/yo0DkEypwryg9FBXGui0Sq/Untitled?node-id=0-1&t=G3jX7qyO9f09hcPm-1)
+
+Screenshots
+![AI Dashboard Screenshot](https://github.com/user-attachments/assets/e16f9586-78c6-4151-9293-38346773f4c9)
+
 📂 Project Structure
 Cerevyn/
 │
@@ -70,8 +79,7 @@ Cerevyn/
 ├─ requirements.txt     # Python dependencies
 └─ README.md
 
-Screenshots
-![AI Dashboard Screenshot](https://github.com/user-attachments/assets/e16f9586-78c6-4151-9293-38346773f4c9)
+
 
 🔗 Live Deployment
 https://praneeth1.pythonanywhere.com/
