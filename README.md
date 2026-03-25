@@ -66,6 +66,16 @@ http://127.0.0.1:8000/
 View the wireframes here:  
 [Figma Wireframe](https://www.figma.com/design/yo0DkEypwryg9FBXGui0Sq/Untitled?node-id=0-1&t=G3jX7qyO9f09hcPm-1)
 
+## 🏗️ System Architecture
+
+The system follows a simple client-server architecture:
+
+- Logs and analytics data are processed by the Django backend.
+- The backend exposes APIs that return data in JSON format.
+- The frontend dashboard fetches this data and displays it using charts.
+- Users interact with the dashboard to monitor AI workflows.
+
+![System Architecture](https://drive.google.com/file/d/1qnPn-06VbiaDSc5Am_TQdefKFIHvuSPq/view?usp=sharing)
 Screenshots
 ![AI Dashboard Screenshot](https://github.com/user-attachments/assets/e16f9586-78c6-4151-9293-38346773f4c9)
 
