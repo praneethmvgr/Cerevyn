@@ -1,0 +1,10 @@
+# Core Django framework
+Django==4.2.8
+
+# REST API support (if used)
+djangorestframework==3.20.1
+
+# Database and async support
+asgiref==3.9.0
+sqlparse==1.0.5
+pytz==2023.3
