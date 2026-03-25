@@ -1,0 +1,319 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #0d1117;
+            color: white;
+        }
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 180px;   /* reduced from 250px */
+            background: url("{% static 'images/banner.jpg' %}") no-repeat center;
+            background-size: cover;
+        }
+        /* Dark overlay */
+        .banner::after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            top: 0;
+            left: 0;
+        }
+
+       .top-overlay {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            z-index: 2;
+
+            /* Glass effect */
+            background: rgba(0, 0, 0, 0.4);
+            padding: 6px 12px;
+            border-radius: 20px;
+            backdrop-filter: blur(6px);
+        }
+
+        .username {
+            color: #58a6ff;
+            font-weight: bold;
+        }
+
+        /* Improved Logout Button */
+        .logout-btn {
+            background: linear-gradient(45deg, #f85149, #ff6b6b);
+            padding: 5px 10px;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 15px;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .center-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            font-weight: bold;
+            text-align: center;
+            z-index: 2;
+
+            /* Gradient text */
+            background: linear-gradient(90deg, #00d4ff, #58a6ff, #3fb950);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            /* Glow effect */
+            text-shadow: 0 0 10px rgba(0,212,255,0.7);
+        }
+
+        /* ================= CONTENT ================= */
+        .container {
+            width: 90%;
+            margin: auto;
+            margin-top: 20px;
+        }
+
+        .cards {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card {
+            flex: 1;
+            background: #1c2230;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .total { color: #00d4ff; }
+        .running { color: yellow; }
+        .completed { color: #3fb950; }
+        .failed { color: #f85149; }
+
+        .main {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            flex: 1;
+            background: #161b22;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        /* Logs */
+        .log {
+            padding: 8px;
+            border-bottom: 1px solid #30363d;
+            position: relative;
+            padding-left: 20px;
+            transition: 0.2s;
+        }
+
+        .log::before {
+            content: "•";
+            position: absolute;
+            left: 5px;
+            color: #58a6ff;
+        }
+
+        .log:hover {
+            background: #1c2230;
+            transform: translateX(5px);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 15px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .start { background: green; color: white; }
+        .stop { background: red; color: white; }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= BANNER ================= -->
+<div class="banner">
+
+    <!-- Username + Logout -->
+    <div class="top-overlay">
+        <span class="username">
+            👤 {{ request.user.username }}
+        </span>
+
+        <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button class="logout-btn">Logout</button>
+        </form>
+    </div>
+
+    <!-- Title -->
+    <div class="center-title">
+         AI Monitoring Dashboard
+    </div>
+
+</div>
+
+<!-- ================= CONTENT ================= -->
+<div class="container">
+
+    <div style="text-align:center;">
+        <button class="btn start" onclick="start()">Start</button>
+        <button class="btn stop" onclick="stop()">Stop</button>
+    </div>
+
+    <!-- Cards -->
+    <div class="cards">
+        <div class="card">
+            <h4>Total</h4>
+            <h3 id="total" class="total">0</h3>
+        </div>
+        <div class="card">
+            <h4>Running</h4>
+            <h3 id="running" class="running">0</h3>
+        </div>
+        <div class="card">
+            <h4>Completed</h4>
+            <h3 id="completed" class="completed">0</h3>
+        </div>
+        <div class="card">
+            <h4>Failed</h4>
+            <h3 id="failed" class="failed">0</h3>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="main">
+
+        <!-- Chart -->
+        <div class="box">
+            <h3>Analytics</h3>
+            <canvas id="chart"></canvas>
+        </div>
+
+        <!-- Logs -->
+        <div class="box">
+            <h3>Logs</h3>
+            <div id="logs"></div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+let chart = null;
+let interval = null;
+
+function fetchData() {
+    fetch('/api/data/')
+    .then(res => res.json())
+    .then(data => {
+
+        // Update summary cards
+        document.getElementById("total").innerText = data.summary.totalTasks;
+        document.getElementById("running").innerText = data.summary.runningTasks;
+        document.getElementById("completed").innerText = data.summary.completedTasks;
+        document.getElementById("failed").innerText = data.summary.failedTasks;
+
+        // Update logs
+        let logsDiv = document.getElementById("logs");
+        logsDiv.innerHTML = "";
+        data.logs.forEach(log => {
+            let color =
+                log.status === "Failed" ? "#f85149" :
+                log.status === "Completed" ? "#3fb950" :
+                "yellow";
+
+            logsDiv.innerHTML += `<div class="log" style="color:${color}">
+                ${new Date(log.time).toLocaleTimeString()} - ${log.status} - ${log.message}
+            </div>`;
+        });
+
+        // Update chart
+        const ctx = document.getElementById('chart').getContext('2d');
+        if (!chart) {
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data.metrics.labels,
+                    datasets: [
+                        {
+                            label: 'Running Tasks',
+                            data: data.metrics.running,
+                            borderColor: '#f5dd00',
+                            fill: false,
+                            tension: 0.3
+                        },
+                        {
+                            label: 'Completed Tasks',
+                            data: data.metrics.completed,
+                            borderColor: '#3fb950',
+                            fill: false,
+                            tension: 0.3
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { labels: { color: 'white' } } },
+                    scales: {
+                        x: { ticks: { color: 'white' } },
+                        y: { ticks: { color: 'white' } }
+                    }
+                }
+            });
+        } else {
+            chart.data.labels = data.metrics.labels;
+            chart.data.datasets[0].data = data.metrics.running;
+            chart.data.datasets[1].data = data.metrics.completed;
+            chart.update();
+        }
+    });
+}
+
+// Start/Stop buttons
+function start() {
+    if (interval) return;
+    fetchData();
+    interval = setInterval(fetchData, 3000);
+}
+
+function stop() {
+    clearInterval(interval);
+    interval = null;
+}
+
+// Auto-start on page load
+start();
+</script>
+
+</body>
+</html>

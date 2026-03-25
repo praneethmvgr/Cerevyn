@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Dashboard</title>
+
+    <style>
+        /* Reset link styles */
+        a {
+            text-decoration: none; /* remove underline */
+        }
+
+        body {
+            background: #0d1117;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .box {
+            text-align: center;
+            background: #161b22;
+            padding: 30px 50px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(88, 166, 255, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 30px rgba(88, 166, 255, 0.5);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+            font-size: 2.2em;
+            font-weight: 700;
+            color: #58a6ff; /* gives a gradient-like standout */
+        }
+
+        .btn {
+            display: block;
+            margin: 15px auto;
+            padding: 12px 25px;
+            width: 220px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+        }
+
+        .login {
+            background: linear-gradient(90deg, #58a6ff, #1f6feb);
+            color: white;
+        }
+
+        .login:hover {
+            background: linear-gradient(90deg, #1f6feb, #58a6ff);
+        }
+
+        .register {
+            background: linear-gradient(90deg, #3fb950, #2ea043);
+            color: white;
+        }
+
+        .register:hover {
+            background: linear-gradient(90deg, #2ea043, #3fb950);
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h1>🚀 AI Monitoring Dashboard</h1>
+
+    <a href="/login/">
+        <button class="btn login">Login</button>
+    </a>
+
+    <a href="/register/">
+        <button class="btn register">Register</button>
+    </a>
+</div>
+
+</body>
+</html>
