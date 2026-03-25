@@ -7,7 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-# ------------------- DASHBOARD -------------------
+
 @login_required
 def dashboard(request):
     return render(request, 'dashboard.html')
@@ -15,7 +15,7 @@ def dashboard(request):
 def home(request):
     return render(request, 'home.html')
 
-# ------------------- LOGIN -------------------
+
 def login_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -28,7 +28,7 @@ def login_view(request):
             return render(request, 'login.html', {'error': 'Invalid credentials'})
     return render(request, 'login.html')
 
-# ------------------- REGISTER -------------------
+
 def register_view(request):
     if request.method == "POST":
         username = request.POST.get('username')
@@ -39,13 +39,11 @@ def register_view(request):
         return redirect('login')
     return render(request, 'register.html')
 
-# ------------------- LOGOUT -------------------
 def logout_view(request):
     logout(request)
     return redirect('login')
 
 
-# ------------------- API VIEW -------------------
 class DashboardAPIView(APIView):
     """
     Returns realistic mock AI monitoring data:
@@ -79,7 +77,6 @@ class DashboardAPIView(APIView):
                 "message": f"Task {i+1} {status}"
             })
 
-            # Metrics for chart
             metrics_running.append(random.randint(10, 100))
             metrics_completed.append(random.randint(20, 120))
 
