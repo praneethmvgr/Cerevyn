@@ -75,7 +75,7 @@ The system follows a simple client-server architecture:
 - The frontend dashboard fetches this data and displays it using charts.
 - Users interact with the dashboard to monitor AI workflows.
 
-![System Architecture](https://drive.google.com/file/d/1qnPn-06VbiaDSc5Am_TQdefKFIHvuSPq/view?usp=sharing)
+![System Architecture](https://github.com/praneethmvgr/Cerevyn/raw/main/System_Architecture.jpg)
 Screenshots
 ![AI Dashboard Screenshot](https://github.com/user-attachments/assets/e16f9586-78c6-4151-9293-38346773f4c9)
 
