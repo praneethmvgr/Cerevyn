@@ -76,6 +76,8 @@ The system follows a simple client-server architecture:
 - Users interact with the dashboard to monitor AI workflows.
 
 ![System Architecture](https://github.com/praneethmvgr/Cerevyn/raw/main/System_Architecture.jpg)
+
+
 Screenshots
 ![AI Dashboard Screenshot](https://github.com/user-attachments/assets/e16f9586-78c6-4151-9293-38346773f4c9)
 
