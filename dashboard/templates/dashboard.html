@@ -15,11 +15,11 @@
         .banner {
             position: relative;
             width: 100%;
-            height: 180px;   /* reduced from 250px */
+            height: 180px;   
             background: url("{% static 'images/banner.jpg' %}") no-repeat center;
             background-size: cover;
         }
-        /* Dark overlay */
+       
         .banner::after {
             content: "";
             position: absolute;
@@ -39,7 +39,7 @@
             align-items: center;
             z-index: 2;
 
-            /* Glass effect */
+            
             background: rgba(0, 0, 0, 0.4);
             padding: 6px 12px;
             border-radius: 20px;
@@ -51,7 +51,7 @@
             font-weight: bold;
         }
 
-        /* Improved Logout Button */
+      
         .logout-btn {
             background: linear-gradient(45deg, #f85149, #ff6b6b);
             padding: 5px 10px;
@@ -76,16 +76,15 @@
             text-align: center;
             z-index: 2;
 
-            /* Gradient text */
             background: linear-gradient(90deg, #00d4ff, #58a6ff, #3fb950);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
 
-            /* Glow effect */
+        
             text-shadow: 0 0 10px rgba(0,212,255,0.7);
         }
 
-        /* ================= CONTENT ================= */
+        
         .container {
             width: 90%;
             margin: auto;
@@ -123,7 +122,7 @@
             border-radius: 10px;
         }
 
-        /* Logs */
+    
         .log {
             padding: 8px;
             border-bottom: 1px solid #30363d;
@@ -144,7 +143,7 @@
             transform: translateX(5px);
         }
 
-        /* Buttons */
+       
         .btn {
             padding: 8px 15px;
             margin: 10px;
@@ -159,10 +158,9 @@
 
 <body>
 
-<!-- ================= BANNER ================= -->
 <div class="banner">
 
-    <!-- Username + Logout -->
+    
     <div class="top-overlay">
         <span class="username">
             👤 {{ request.user.username }}
@@ -174,14 +172,13 @@
         </form>
     </div>
 
-    <!-- Title -->
     <div class="center-title">
          AI Monitoring Dashboard
     </div>
 
 </div>
 
-<!-- ================= CONTENT ================= -->
+
 <div class="container">
 
     <div style="text-align:center;">
@@ -189,7 +186,7 @@
         <button class="btn stop" onclick="stop()">Stop</button>
     </div>
 
-    <!-- Cards -->
+    
     <div class="cards">
         <div class="card">
             <h4>Total</h4>
@@ -209,16 +206,16 @@
         </div>
     </div>
 
-    <!-- Main -->
+
     <div class="main">
 
-        <!-- Chart -->
+      
         <div class="box">
             <h3>Analytics</h3>
             <canvas id="chart"></canvas>
         </div>
 
-        <!-- Logs -->
+
         <div class="box">
             <h3>Logs</h3>
             <div id="logs"></div>
@@ -237,13 +234,12 @@ function fetchData() {
     .then(res => res.json())
     .then(data => {
 
-        // Update summary cards
         document.getElementById("total").innerText = data.summary.totalTasks;
         document.getElementById("running").innerText = data.summary.runningTasks;
         document.getElementById("completed").innerText = data.summary.completedTasks;
         document.getElementById("failed").innerText = data.summary.failedTasks;
 
-        // Update logs
+       
         let logsDiv = document.getElementById("logs");
         logsDiv.innerHTML = "";
         data.logs.forEach(log => {
@@ -257,7 +253,6 @@ function fetchData() {
             </div>`;
         });
 
-        // Update chart
         const ctx = document.getElementById('chart').getContext('2d');
         if (!chart) {
             chart = new Chart(ctx, {
@@ -299,7 +294,7 @@ function fetchData() {
     });
 }
 
-// Start/Stop buttons
+
 function start() {
     if (interval) return;
     fetchData();
@@ -311,7 +306,7 @@ function stop() {
     interval = null;
 }
 
-// Auto-start on page load
+
 start();
 </script>
 
